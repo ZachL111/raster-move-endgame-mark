@@ -1,68 +1,40 @@
 # raster-move-endgame-mark
 
-`raster-move-endgame-mark` explores chess and game engines in Elixir. The repository keeps the core rule set compact, then surrounds it with examples that show how the decisions move.
+`raster-move-endgame-mark` explores chess and game engines with a small Elixir codebase and local fixtures. The technical goal is to build an Elixir toolkit that studies endgame behavior through transition tables, with invalid-transition tests and offline replay mode.
 
-## Raster Move Endgame Mark Notes
+## Reason For The Project
 
-The quickest review path is the verifier first, then the fixtures, then the operations note. That order makes it easy to see whether the code, data, and explanation still agree.
+The project exists to keep a narrow engineering decision visible and testable. For this repo, that decision is how position pressure and search width should influence a review result.
 
-## Why This Exists
+## Raster Move Endgame Mark Review Notes
 
-This is not a wrapper around a service. It is a self-contained project that shows how the model behaves when demand, capacity, latency, risk, and weight move in different directions.
+`recovery` and `stale` are the cases worth reading first. They show the optimistic and cautious ends of the fixture.
 
-## Code Tour
+## What It Does
 
-- `lib`: library code
-- `test`: language test directory
-- `fixtures`: compact golden scenarios
-- `examples`: expanded scenario set
-- `metadata`: project constants and verification metadata
-- `docs`: operations and extension notes
-- `scripts`: local verification and audit commands
+- `fixtures/domain_review.csv` adds cases for position pressure and move ordering.
+- `metadata/domain-review.json` records the same cases in structured form.
+- `config/review-profile.json` captures the read order and the two review questions.
+- `examples/raster-move-endgame-walkthrough.md` walks through the case spread.
+- The Elixir code includes a review path for `endgame risk` and `position pressure`.
+- `docs/field-notes.md` explains the strongest and weakest cases.
 
-## Feature Notes
+## How It Is Put Together
 
-- Includes extended examples for turn flow, including `recovery` and `degraded`.
-- Documents search limits tradeoffs in `docs/operations.md`.
-- Runs locally with a single verification command and no external credentials.
-- Stores project constants and verification metadata in `metadata/project.json`.
-- Adds a repository audit script that checks structure before running the language verifier.
+The repository has two validation layers: the original compact policy fixture and the domain review fixture. They are separate so one can change without hiding failures in the other.
 
-## Implementation Notes
+The Elixir code keeps the review rule close to the tests.
 
-The core is a scoring model over demand, capacity, latency, risk, and weight. That keeps position state, move ranking, and turn flow in one explicit decision path. The threshold is 184, with risk penalty 7, latency penalty 3, and weight bonus 3. The Elixir project uses Mix and ExUnit with clear data maps for each scenario.
-
-## Local Setup
-
-Use a normal shell with Elixir available on `PATH`. The verifier is written as a PowerShell script because the portfolio was assembled on Windows.
-
-## Example Scenarios
-
-`examples/extended_cases.csv` adds six named cases. I kept the names plain so failures are easy to read in a terminal: baseline, pressure, surge, degraded, recovery, and boundary.
-
-## Try It
+## Run It
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-This runs the language-level build or test path against the compact fixture set.
+## Check It
 
-## Tests
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
-```
-
-The audit command checks repository structure and README constraints before it delegates to the verifier.
-
-## Roadmap
-
-- Add a loader for `examples/extended_cases.csv` and promote selected cases into the language test suite.
-- Add a short report command that prints the score breakdown for a single scenario.
-- Add malformed input fixtures so the failure path is as visible as the happy path.
-- Add one more chess and game engines fixture that focuses on a malformed or borderline input.
+The same command runs the local verification path. The highest-scoring domain case is `recovery` at 214, which lands in `ship`. The most cautious case is `stale` at 117, which lands in `watch`.
 
 ## Boundaries
 
-The fixture set is deliberately small. That keeps the review surface clear, but it also means the model should not be treated as a complete domain simulator.
+The repository is intentionally scoped to local checks. I would expand it by adding adversarial fixtures before adding features.

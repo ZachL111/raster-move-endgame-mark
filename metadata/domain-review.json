@@ -1,0 +1,73 @@
+{
+  "repo": "raster-move-endgame-mark",
+  "language": "Elixir",
+  "category": "Chess and game engines",
+  "goal": "Build an Elixir toolkit that studies endgame behavior through transition tables, with invalid-transition tests and offline replay mode.",
+  "review_model": {
+    "terms": [
+      "position pressure",
+      "move ordering",
+      "search width",
+      "endgame risk"
+    ],
+    "lanes": [
+      "ship",
+      "watch",
+      "hold"
+    ],
+    "score": "signal * 2 + slack + confidence - drag * 3",
+    "purpose": "surface the domain-specific cases that need the most careful review"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "focus": "position pressure",
+      "signal": 65,
+      "slack": 54,
+      "drag": 19,
+      "confidence": 76,
+      "score": 203,
+      "lane": "ship"
+    },
+    {
+      "name": "stress",
+      "focus": "move ordering",
+      "signal": 56,
+      "slack": 30,
+      "drag": 21,
+      "confidence": 65,
+      "score": 144,
+      "lane": "ship"
+    },
+    {
+      "name": "edge",
+      "focus": "search width",
+      "signal": 73,
+      "slack": 25,
+      "drag": 13,
+      "confidence": 75,
+      "score": 207,
+      "lane": "ship"
+    },
+    {
+      "name": "recovery",
+      "focus": "endgame risk",
+      "signal": 72,
+      "slack": 29,
+      "drag": 12,
+      "confidence": 77,
+      "score": 214,
+      "lane": "ship"
+    },
+    {
+      "name": "stale",
+      "focus": "position pressure",
+      "signal": 60,
+      "slack": 22,
+      "drag": 26,
+      "confidence": 53,
+      "score": 117,
+      "lane": "watch"
+    }
+  ]
+}
