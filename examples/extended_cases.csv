@@ -1,0 +1,7 @@
+name,demand,capacity,latency,risk,weight,score,decision,reason
+baseline,63,88,19,12,7,94,review,chess and game engines baseline scenario exercises the review path for bounded failure handling
+pressure,76,69,25,23,8,9,review,chess and game engines pressure scenario exercises the review path for bounded failure handling
+surge,100,99,23,16,12,154,review,chess and game engines surge scenario exercises the review path for bounded failure handling
+degraded,73,62,36,26,7,-61,review,chess and game engines degraded scenario exercises the review path for bounded failure handling
+recovery,85,107,21,10,12,180,review,chess and game engines recovery scenario exercises the review path for bounded failure handling
+boundary,73,78,24,16,7,61,review,chess and game engines boundary scenario exercises the review path for bounded failure handling
